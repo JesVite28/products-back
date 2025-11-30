@@ -5,10 +5,15 @@ const connect = require("./Database/Connect");
 connect();
 const ProductsRoutes = require("./Routes/ProductsRoutes");
 const swaggerSpec = require("./swagger");
-const path = require("path");
+const createRoles = require("./libs/initialSetUp").createRoles;
+const AuthRoutes = require("./Routes/AuthRoutes");
+const Users = require("./Routes/UserRoutes");
+const dotenv = require("dotenv");
+dotenv.config();
 
 // 2. Crear servidor
 const app = express();
+createRoles();
 const PORT = 3690;
 
 // 3. configurar cors
@@ -39,6 +44,8 @@ app.get("/docs", (req, res) => {
           theme="dark"
           show-header="true"
           show-method-in-nav-bar="true"
+          allow-authentication="true"
+          persist-auth="true"
           allow-try="true"
           show-components="true"
           schema-style="tree"
@@ -52,9 +59,11 @@ app.get("/docs", (req, res) => {
 
 // Tus rutas reales
 app.use("/api/v1/product", ProductsRoutes);
+app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/user", Users);
 
 // 5. Escuchar
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
-  console.log(`📘 Documentación disponible en http://localhost:${PORT}/docs`);
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Documentación disponible en http://localhost:${PORT}/docs`);
 });

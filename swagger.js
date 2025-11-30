@@ -16,6 +16,14 @@ const options = {
       },
     ],
     components: {
+      securitySchemes: {
+        AccessTokenAuth: {
+          type: "apiKey",
+          in: "header",
+          name: "x-access-token",
+          description: "Token de acceso JWT",
+        },
+      },
       schemas: {
         Product: {
           type: "object",
@@ -50,6 +58,23 @@ const options = {
               type: "string",
               example: "https://example.com/product-image.jpg",
             },
+          },
+        },
+        UserRegister: {
+          type: "object",
+          required: ["name", "email", "password"],
+          properties: {
+            name: { type: "string", example: "Juan Pérez" },
+            email: { type: "string", example: "juan@gmail.com" },
+            password: { type: "string", example: "123456" },
+          },
+        },
+        UserLogin: {
+          type: "object",
+          required: ["email", "password"],
+          properties: {
+            email: { type: "string", example: "juan@gmail.com"},
+            password: { type: "string", example: "123456" },
           },
         },
       },

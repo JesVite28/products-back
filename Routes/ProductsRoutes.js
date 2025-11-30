@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const ProductController = require("../Controllers/ProductsController");
-
+const { verifyToken, admin, moderador } = require("../middlewares/authjwt");
 /**
  * @openapi
  * /product/save:
  *   post:
  *     summary: Crea un nuevo producto
+ *     security:
+ *      - AccessTokenAuth: []
  *     tags: [Productos]
  *     requestBody:
  *       required: true
@@ -22,13 +24,15 @@ const ProductController = require("../Controllers/ProductsController");
  *       500:
  *         description: Error al guardar el producto
  */
-router.post('/save', ProductController.saveProduct);
+router.post('/save', verifyToken, admin, ProductController.saveProduct);
 
 /**
  * @openapi
  * /product/index:
  *   get:
  *     summary: Obtiene todos los productos
+ *     security:
+ *      - AccessTokenAuth: []
  *     tags: [Productos]
  *     responses:
  *       200:
@@ -36,13 +40,15 @@ router.post('/save', ProductController.saveProduct);
  *       500:
  *         description: Error al listar los productos
  */
-router.get('/index', ProductController.indexProduct);
+router.get('/index', verifyToken, ProductController.indexProduct);
 
 /**
  * @openapi
  * /product/indexId/{id}:
  *   get:
  *     summary: Obtiene un producto por su ID
+ *     security:
+ *      - AccessTokenAuth: []
  *     tags: [Productos]
  *     parameters:
  *       - in: path
@@ -59,13 +65,15 @@ router.get('/index', ProductController.indexProduct);
  *       500:
  *         description: Error al listar el producto por ID
  */
-router.get('/indexId/:id', ProductController.indexIdProduct);
+router.get('/indexId/:id', verifyToken, ProductController.indexIdProduct);
 
 /**
  * @openapi
  * /product/update/{id}:
  *   patch:
  *     summary: Actualiza un producto por su ID
+ *     security:
+ *       - AccessTokenAuth: [] 
  *     tags: [Productos]
  *     parameters:
  *       - in: path
@@ -88,13 +96,15 @@ router.get('/indexId/:id', ProductController.indexIdProduct);
  *       500:
  *         description: Error al actualizar el producto
  */
-router.patch('/update/:id', ProductController.updateProduct);
+router.patch('/update/:id', verifyToken, admin, moderador, ProductController.updateProduct);
 
 /**
  * @openapi
  * /product/delete/{id}:
  *   delete:
  *     summary: Elimina un producto por su ID
+ *     security:
+ *      - AccessTokenAuth: []
  *     tags: [Productos]
  *     parameters:
  *       - in: path
@@ -111,6 +121,6 @@ router.patch('/update/:id', ProductController.updateProduct);
  *       500:
  *         description: Error al eliminar el producto
  */
-router.delete('/delete/:id', ProductController.deleteProduct);
+router.delete('/delete/:id', verifyToken, admin, ProductController.deleteProduct);
 
 module.exports = router;
