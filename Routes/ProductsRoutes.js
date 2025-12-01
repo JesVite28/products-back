@@ -1,7 +1,14 @@
-const express = require('express');
+// Routes/ProductsRoutes.js
+const express = require("express");
 const router = express.Router();
 const ProductController = require("../Controllers/ProductsController");
-const { verifyToken, admin, moderador } = require("../middlewares/authjwt");
+const {
+    verifyToken,
+    admin,
+    moderador,
+    adminOrModerador,
+} = require("../middlewares/authjwt");
+
 /**
  * @openapi
  * /product/save:
@@ -24,7 +31,12 @@ const { verifyToken, admin, moderador } = require("../middlewares/authjwt");
  *       500:
  *         description: Error al guardar el producto
  */
-router.post('/save', verifyToken, admin, ProductController.saveProduct);
+router.post(
+    "/save",
+    verifyToken,
+    adminOrModerador, // ✅ Admin O Gerente
+    ProductController.saveProduct
+);
 
 /**
  * @openapi
@@ -40,7 +52,7 @@ router.post('/save', verifyToken, admin, ProductController.saveProduct);
  *       500:
  *         description: Error al listar los productos
  */
-router.get('/index', verifyToken, ProductController.indexProduct);
+router.get("/index", verifyToken, ProductController.indexProduct);
 
 /**
  * @openapi
@@ -65,7 +77,11 @@ router.get('/index', verifyToken, ProductController.indexProduct);
  *       500:
  *         description: Error al listar el producto por ID
  */
-router.get('/indexId/:id', verifyToken, ProductController.indexIdProduct);
+router.get(
+    "/indexId/:id",
+    verifyToken,
+    ProductController.indexIdProduct
+);
 
 /**
  * @openapi
@@ -96,7 +112,12 @@ router.get('/indexId/:id', verifyToken, ProductController.indexIdProduct);
  *       500:
  *         description: Error al actualizar el producto
  */
-router.patch('/update/:id', verifyToken, admin, moderador, ProductController.updateProduct);
+router.patch(
+    "/update/:id",
+    verifyToken,
+    adminOrModerador, // ✅ Admin O Gerente pueden editar
+    ProductController.updateProduct
+);
 
 /**
  * @openapi
@@ -121,6 +142,11 @@ router.patch('/update/:id', verifyToken, admin, moderador, ProductController.upd
  *       500:
  *         description: Error al eliminar el producto
  */
-router.delete('/delete/:id', verifyToken, admin, ProductController.deleteProduct);
+router.delete(
+    "/delete/:id",
+    verifyToken,
+    admin, // ❗ Solo admin puede eliminar
+    ProductController.deleteProduct
+);
 
 module.exports = router;
