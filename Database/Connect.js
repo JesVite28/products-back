@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const conection = async ()=>{
     console.log("Conectando a la base de datos...");
     try{
-        await mongoose.connect("mongodb://127.0.0.1:27017/DB-Products-Dev");
+        await mongoose.connect("mongodb://127.0.0.1:27017/DB-Productos-API");
         console.log("::: Conexión a la base de datos establecida :::");
     }catch(error){
         console.log('Error',error);

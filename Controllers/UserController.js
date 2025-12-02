@@ -68,7 +68,7 @@ const updateUser = async (req, res) => {
         // ✅ actualizar password en texto plano para que el hook del modelo lo encripte
         if (typeof passToUpdate === "string" && passToUpdate.trim() !== "") {
             user.password = passToUpdate.trim();
-            user.markModified("password"); // 🔥 fuerza a mongoose a reconocer cambio
+            user.markModified("password"); // 
         }
 
         // ✅ roles por nombre -> ObjectId
@@ -86,7 +86,7 @@ const updateUser = async (req, res) => {
             user.markModified("roles");
         }
 
-        await user.save(); // ✅ aquí corre pre("save") y encripta password
+        await user.save();
 
         const populated = await User.findById(user._id).populate("roles");
 

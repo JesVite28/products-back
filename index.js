@@ -5,7 +5,7 @@ const connect = require("./Database/Connect");
 connect();
 const ProductsRoutes = require("./Routes/ProductsRoutes");
 const swaggerSpec = require("./swagger");
-const createRoles = require("./libs/initialSetUp").createRoles;
+const { createRoles, createAdminUser } = require("./libs/initialSetUp");
 const AuthRoutes = require("./Routes/AuthRoutes");
 const Users = require("./Routes/UserRoutes");
 const dotenv = require("dotenv");
@@ -14,6 +14,7 @@ dotenv.config();
 // 2. Crear servidor
 const app = express();
 createRoles();
+createAdminUser();
 const PORT = 3690;
 
 // 3. configurar cors
