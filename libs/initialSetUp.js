@@ -44,7 +44,7 @@ export const createAdminUser = async () => {
         });
 
         await newAdmin.save();
-        console.log('Usuario admin creado:', adminEmail);
+        console.log('Usuario admin creado:', adminEmail, 'con contraseña:', adminPass);
     } catch (error) {
         console.error('Error al crear el usuario admin inicial:', error);
     }
